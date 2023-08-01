@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())  //Quand l'utilisateur est cree il recoit un id qui est cree automatiquement 
+  createdAt DateTime @default(now())    // Quand l'utilisateur est cree son temps defaut de creation  est maintenant 
+  updatedAt DateTime @updatedAt
+
+  email String @unique
+
+  name String?
+  username String? @unique   //? signifie que l'element est optionnel
+  image String?
+  bio String?
+  isVerified Boolean @default(false)
+
+  tweets Tweet[]    //implementation de la relation 1 to many ici chaque utilisateur peut avoir plusieurs tweets
+  tokens Token[]
+}
+
+model Token {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  type String // EMAIL|API
+  emailToken String? @unique
+
+  valid Boolean @default(true)
+  expiration DateTime
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+}
+
+// enum TokenType {
+//   EMAIL
+//   API
+// }
+
+model Tweet {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  content String
+  image String?
+
+  impression Int @default(0)
+
+  userId Int
+  user User @relation(fields: [userId], references: [id]) // Implementation de la relation one to many avec field [] et references []
+}
+
+// Install Prisma                     npm install prisma --save-dev
+// Create a prisma file :             npx prisma init --datasource-provider sqlite  here sqlite is the chosen db 
+// Create a migration :                npx prisma migrate dev --name "init"
+// To connect back and front necessite d'avoir prisma Client : npm install @prisma/client 
