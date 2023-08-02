@@ -99,16 +99,7 @@ Pour garder de la consistance dans la facon d'ecrire le code et pour ne pas surc
           
           -GO to PM2 for your server to run indefinitely in the back ground.
                  - Install PM2 in the global like the instructions 
-                 - pm2 start TwitterBackEnd97/build/index.js ==> here we use pm2 with the path of the back end we want to connect to.
-
-                 If We add some changes in the backend 
-                           - 1 Push changes to git repo
-                           - 2 npm run build 
-                           - 3 pm2 restart (name of instance here index) 
-
-
-          
-
+                 
 
 
   */
